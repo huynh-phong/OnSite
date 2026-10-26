@@ -1312,7 +1312,7 @@ export const CountrySmartShellView: React.FC<CountrySmartShellViewProps> = ({
                   <span>
                     {lang === 'en'
                       ? 'LIVE AI EXECUTIVE & OPERATIONAL DISPATCH REPORT'
-                      : 'BÁO CÁO PHẢN HỒI & ĐIỀU PHỐI TỪ TRÍ TUỆ NHÂN TẠO (GEMINI 3.8 FLASH)'}
+                      : 'BÁO CÁO PHẢN HỒI & ĐIỀU PHỐI TỪ TRÍ TUỆ NHÂN TẠO (GEMINI 3.1 FLASH LITE)'}
                   </span>
                   {aiReport && (
                     <span className="px-2 py-0.5 rounded bg-[#CFE3DC] text-[#0F2923]">

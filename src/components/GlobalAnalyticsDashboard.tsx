@@ -376,8 +376,8 @@ export const GlobalAnalyticsDashboard: React.FC<GlobalAnalyticsDashboardProps> =
               </div>
               <h3 className="text-lg sm:text-xl font-extrabold text-white">
                 {lang === 'en'
-                  ? 'Real-Time AI Order Orchestration & Executive Dispatch Report'
-                  : 'Phân Tích Điều Phối Đơn Hàng & Xuất Báo Cáo AI Thực Tế (Gemini 3.8 Flash)'}
+                  ? 'Real-Time AI Order Orchestration & Executive Dispatch Report (Gemini 3.1 Flash Lite)'
+                  : 'Phân Tích Điều Phối Đơn Hàng & Xuất Báo Cáo AI Thực Tế (Gemini 3.1 Flash Lite)'}
               </h3>
               <p className="text-xs font-medium text-[#CFE3DC] mt-0.5">
                 {lang === 'en'
@@ -394,13 +394,23 @@ export const GlobalAnalyticsDashboard: React.FC<GlobalAnalyticsDashboardProps> =
                   key={code}
                   type="button"
                   onClick={() => setSelectedAiCountry(code)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer whitespace-nowrap ${
                     selectedAiCountry === code
                       ? 'bg-[#CFE3DC] text-[#0F2923]'
                       : 'text-white hover:bg-white/15'
                   }`}
                 >
-                  {code === 'SE' ? '🇸🇪 SE' : code === 'DK' ? '🇩🇰 DK' : '🇳🇴 NO'}
+                  {code === 'SE'
+                    ? lang === 'en'
+                      ? 'SE · Sweden'
+                      : 'SE · Thụy Điển'
+                    : code === 'DK'
+                    ? lang === 'en'
+                      ? 'DK · Denmark'
+                      : 'DK · Đan Mạch'
+                    : lang === 'en'
+                    ? 'NO · Norway'
+                    : 'NO · Na Uy'}
                 </button>
               ))}
             </div>
