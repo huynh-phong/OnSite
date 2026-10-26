@@ -6,7 +6,7 @@
 [![Netcompany IT Consultant Challenge 2026](https://img.shields.io/badge/Netcompany-IT%20Consultant%20Challenge%202026-002D62?style=for-the-badge&logo=target&logoColor=white)](https://netcompany.com)
 [![Team Pyramid](https://img.shields.io/badge/Developed%20By-Team%20Pyramid-FF6F00?style=for-the-badge)](https://github.com/huynh-phong/OnSite)
 [![Vercel Ready](https://img.shields.io/badge/Deployment-Vercel%20Serverless-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com)
-[![Gemini 3.8 Flash](https://img.shields.io/badge/AI%20Engine-Gemini%203.8%20Flash-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev)
+[![Gemini AI Engine](https://img.shields.io/badge/AI%20Engine-Gemini%20Multimodal%20Intelligence-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev)
 [![React 19](https://img.shields.io/badge/Frontend-React%2019%20%2B%20TypeScript-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
 [![Vite](https://img.shields.io/badge/Bundler-Vite%208-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev)
 
@@ -60,7 +60,7 @@ flowchart TB
         direction TB
         CDM["Canonical Data Model (CDM)<br/><i>Harmonized SKUs & Cross-Reference Matrix</i>"]
         GlobalLedger["Sub-Second Distributed Audit Ledger<br/><i>Latency Tracking & SLA Auditing</i>"]
-        AIEngine["Gemini 3.8 Flash Orchestration Engine<br/><i>Risk Verdicts & Operational Reporting</i>"]
+        AIEngine["Gemini AI Orchestration Engine<br/><i>Risk Verdicts & Operational Reporting</i>"]
     end
 
     subgraph SmartShells["⚡ Edge Smart Shell Adapter Layer"]
@@ -147,12 +147,12 @@ stateDiagram-v2
 
 ---
 
-### 3. 🤖 Gemini 3.8 Flash AI Orchestration Engine
+### 3. 🤖 Gemini AI Smart Shell Orchestration Engine
 
-OnSite integrates **Gemini 3.8 Flash** natively via serverless API routes (`/api/ai-orchestrate`), providing executive-level supply chain telemetry analysis:
+OnSite integrates **Gemini AI** natively via serverless API routes (`/api/ai-orchestrate`), providing executive-level supply chain telemetry analysis:
 
 * **Real-Time Delivery Verdicts**: Instant classification into `OPTIMAL_PRIMARY`, `SPLIT_FULFILLMENT_ACTIVE`, `FAILOVER_REPLICA_ROUTED`, or `CRITICAL_DEFICIT`.
-* **Low-Latency Thinking Mode**: Employs low-latency structured JSON reasoning (`responseMimeType: 'application/json'`) ensuring sub-second inference.
+* **Low-Latency Structured JSON Output**: Utilizes schema enforcement with minimal thinking latency ensuring sub-second to rapid response generation.
 * **Financial & KPI Impact Analysis**: Calculates avoided SLA non-performance penalties against marginal secondary freight costs to prove positive ROI for each split route.
 * **Bilingual Executive Summaries**: Dynamically renders operational briefs in enterprise English or Vietnamese (*Tiếng Việt chuyên ngành Chuỗi cung ứng*).
 
@@ -161,7 +161,7 @@ OnSite integrates **Gemini 3.8 Flash** natively via serverless API routes (`/api
 │                   SAMPLE AI ORCHESTRATION REPORT                       │
 ├────────────────────────────────────────────────────────────────────────┤
 │ 📋 VERDICT: SPLIT_FULFILLMENT_ACTIVE | CONFIDENCE: 99.7%               │
-│ ⏱️ SERVER LATENCY: 284ms | MODEL: gemini-3.8-flash                     │
+│ ⏱️ SERVER LATENCY: ~1,200ms | ENGINE: Gemini Orchestrator              │
 ├────────────────────────────────────────────────────────────────────────┤
 │ "Stockholm Slussen successfully fulfilled 70/120 Boards (Net ATP 70,  │
 │  deducting 8 buffer & 2 soft-reserved). Split routing redirected the   │
@@ -264,7 +264,7 @@ CREATE TABLE global_audit_stream (
 | **Frontend Framework** | **React 19**, **TypeScript**, **Vite 8**, **Tailwind CSS v4**, **Motion** |
 | **Iconography & Visuals** | **Lucide React**, Responsive Reactive Architecture, Dual-theme UI |
 | **Edge & Serverless API**| **Vercel Serverless Functions** (`/api/*`), Node.js ESM Runtime |
-| **AI Integration** | **Google GenAI SDK** (`@google/genai`), **Gemini 3.8 Flash** with Structured Schema |
+| **AI Integration** | **Google GenAI SDK** (`@google/genai`), **Gemini Fast-Adaptive Engine** |
 | **Integration Patterns** | Smart Shell / Adapter Pattern, Canonical Data Model (CDM), Circuit Breaker, Two-Phase Soft Reservation |
 | **Performance SLA** | Sub-500ms End-to-End Latency Target, Zero-Dependency Edge Execution |
 

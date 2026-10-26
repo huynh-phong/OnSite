@@ -163,8 +163,8 @@ export default function App() {
     ]);
   };
 
-  // LIVE AUTONOMOUS MULTI-COUNTRY PRODUCTION HEARTBEAT
-  // Continuously simulates real ERP/POS counter dispatches, replenishments, and polling across SE, DK, NO
+  // STAGGERED LIVE AUTONOMOUS MULTI-COUNTRY PRODUCTION HEARTBEAT (2.4s Cadence, 1 Country per Tick)
+  // Updates one country at a time (SE -> DK -> NO) so all 3 never flash simultaneously
   useEffect(() => {
     if (!isLiveStreamActive) return;
 
@@ -173,44 +173,45 @@ export default function App() {
       const countries: CountryCode[] = ['SE', 'DK', 'NO'];
       const targetCountry = countries[liveTickRef.current % 3];
 
-      // Skip if this node is currently in manual offline circuit-breaker mode
       if (offlineNodes[targetCountry]) return;
 
       setBranchStocks((prevStocks) => {
-        const countryIndices = prevStocks
+        const cIndices = prevStocks
           .map((s, idx) => (s.country === targetCountry ? idx : -1))
           .filter((idx) => idx !== -1);
-
-        if (countryIndices.length === 0) return prevStocks;
+        if (cIndices.length === 0) return prevStocks;
 
         const chosenIndex =
-          countryIndices[Math.floor(Math.random() * countryIndices.length)];
+          cIndices[Math.floor(Math.random() * cIndices.length)];
         const targetStock = prevStocks[chosenIndex];
 
-        // Decide realistic micro-transaction: POS counter sale (-2 to -6) or Supplier Replenishment (+6 to +12)
         const isReplenish =
-          targetStock.physicalStock < 65 || Math.random() > 0.58;
+          targetStock.physicalStock < 70 || Math.random() > 0.52;
         const delta = isReplenish
-          ? 4 + Math.floor(Math.random() * 8)
-          : -(2 + Math.floor(Math.random() * 5));
+          ? 5 + Math.floor(Math.random() * 10)
+          : -(3 + Math.floor(Math.random() * 7));
 
         const nextPhysical = Math.max(
           45,
-          Math.min(520, targetStock.physicalStock + delta)
+          Math.min(540, targetStock.physicalStock + delta)
         );
         const actualDelta = nextPhysical - targetStock.physicalStock;
         if (actualDelta === 0) return prevStocks;
 
+        const resDelta =
+          Math.random() > 0.65 ? (Math.random() > 0.5 ? 2 : -2) : 0;
+        const nextReserved = Math.max(
+          0,
+          Math.min(45, targetStock.softReserved + resDelta)
+        );
+
         const pct = countryBufferPct[targetCountry];
         const buffer = Math.ceil((nextPhysical * pct) / 100);
-        const nextAtp = Math.max(
-          0,
-          nextPhysical - buffer - targetStock.softReserved
-        );
-        const measuredLatency = 72 + Math.floor(Math.random() * 82);
-        const signStr = actualDelta > 0 ? `+${actualDelta}` : `${actualDelta}`;
+        const nextAtp = Math.max(0, nextPhysical - buffer - nextReserved);
+        const measuredLatency = 68 + Math.floor(Math.random() * 82);
+        const signStr =
+          actualDelta >= 0 ? `+${actualDelta}` : `${actualDelta}`;
 
-        // Pulse the country Smart Shell card
         setShellSyncStatus((prevSync) => ({
           ...prevSync,
           [targetCountry]: {
@@ -229,13 +230,12 @@ export default function App() {
               syncing: false,
             },
           }));
-        }, 450);
+        }, 500);
 
         setLiveTxCount((c) => c + 1);
 
         const flag =
           targetCountry === 'SE' ? '🇸🇪' : targetCountry === 'DK' ? '🇩🇰' : '🇳🇴';
-
         appendLedgerEvent({
           sourceNode: `${flag} ${targetCountry}-ADAPTER (${targetStock.branchId})`,
           eventTypeEn:
@@ -247,8 +247,8 @@ export default function App() {
               ? 'NHẬP_KHO_THỰC_TẾ_ERP'
               : 'XUẤT_BÁN_QUẦY_POS_THỰC_TẾ',
           globalSku: targetStock.globalSku,
-          detailsEn: `Live ${targetCountry} stream at ${targetStock.branchId} (${signStr} units): Physical=${nextPhysical}, Safety Buffer(${pct}%)=−${buffer}, Reserved=−${targetStock.softReserved} → Net ATP = ${nextAtp}.`,
-          detailsVi: `Biến động thực tế tại ${targetStock.branchId} (${signStr} đơn vị): Tồn vật lý=${nextPhysical}, Dự phòng(${pct}%)=−${buffer}, Tạm giữ=−${targetStock.softReserved} → Khả dụng ATP = ${nextAtp}.`,
+          detailsEn: `Live ${targetCountry} stream at ${targetStock.branchId} (${signStr}u): Physical=${nextPhysical}, Buffer(${pct}%)=−${buffer}, Reserved=−${nextReserved} → Net ATP = ${nextAtp}.`,
+          detailsVi: `Biến động thực tế tại ${targetStock.branchId} (${signStr} đơn vị): Tồn vật lý=${nextPhysical}, Dự phòng(${pct}%)=−${buffer}, Tạm giữ=−${nextReserved} → Khả dụng ATP = ${nextAtp}.`,
           latencyMs: measuredLatency,
           status: 'NOMINAL',
         });
@@ -258,14 +258,13 @@ export default function App() {
             ? {
                 ...item,
                 physicalStock: nextPhysical,
-                lastPolledAgo: 'Just now',
+                softReserved: nextReserved,
+                lastPolledAgo: 'Live · 2s',
               }
-            : item.country === targetCountry
-            ? { ...item, lastPolledAgo: '4s ago' }
             : item
         );
       });
-    }, 3500);
+    }, 2400);
 
     return () => clearInterval(interval);
   }, [isLiveStreamActive, offlineNodes, countryBufferPct]);

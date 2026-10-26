@@ -367,7 +367,7 @@ export const GlobalAnalyticsDashboard: React.FC<GlobalAnalyticsDashboardProps> =
             </div>
             <div>
               <div className="inline-flex items-center gap-2 text-xs font-mono-tabular font-extrabold uppercase text-[#CFE3DC] mb-1">
-                <span>GEMINI 3.8 FLASH · REAL-TIME AI SUPPLY CHAIN ANALYST</span>
+                <span>GEMINI 3.1 FLASH LITE · REAL-TIME AI SUPPLY CHAIN ANALYST</span>
                 {aiReport && (
                   <span className="px-2 py-0.5 rounded bg-[#CFE3DC] text-[#0F2923]">
                     {aiReport.serverLatencyMs} ms · Conf {aiReport.confidenceScore}

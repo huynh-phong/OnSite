@@ -734,7 +734,7 @@ export const CountrySmartShellView: React.FC<CountrySmartShellViewProps> = ({
               <div>
                 <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-[#CFE3DC] text-[#0F2923] text-[11px] font-mono-tabular font-extrabold mb-1">
                   <Sparkles className="w-3.5 h-3.5 text-[#0F2923]" />
-                  <span>GEMINI 3.8 FLASH · REAL-TIME AI ENGINE</span>
+                  <span>GEMINI 3.1 FLASH LITE · REAL-TIME AI ENGINE</span>
                 </div>
                 <h3 className="text-lg font-extrabold text-[#0F2923]">
                   {lang === 'en'

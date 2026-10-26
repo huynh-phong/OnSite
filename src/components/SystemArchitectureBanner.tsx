@@ -253,21 +253,19 @@ export const SystemArchitectureBanner: React.FC<SystemArchitectureBannerProps> =
                 <div
                   key={node.code}
                   onClick={() => onSelectView(node.code)}
-                  className={`cursor-pointer rounded-2xl p-4 transition-all relative flex flex-col justify-between border-2 ${
+                  className={`cursor-pointer rounded-2xl p-4 transition-colors relative flex flex-col justify-between border-2 ${
                     isSelected
                       ? 'bg-[#163D35] border-[#CFE3DC] shadow-[0_0_28px_rgba(207,227,220,0.3)]'
                       : isOffline
                       ? 'bg-[#2A1210] border-[#E05A47]'
-                      : syncInfo.syncing
-                      ? 'bg-[#18433A] border-[#CFE3DC]'
                       : 'bg-[#0B201B] hover:bg-[#12312A] border-white/25 hover:border-[#CFE3DC]'
                   }`}
                 >
                   {/* Top Bar of Country Shell Node */}
                   <div className="flex items-center justify-between gap-1 mb-2">
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-lg">{node.flag}</span>
-                      <span className="text-xs font-extrabold tracking-wide text-white">
+                    <div className="flex items-center gap-1.5 min-w-0">
+                      <span className="text-base shrink-0">{node.flag}</span>
+                      <span className="text-xs font-extrabold tracking-wide text-white truncate">
                         {lang === 'en' ? node.nameEn : node.nameVi}
                       </span>
                     </div>
@@ -278,16 +276,16 @@ export const SystemArchitectureBanner: React.FC<SystemArchitectureBannerProps> =
                         e.stopPropagation();
                         onToggleOfflineNode(node.code);
                       }}
-                      className={`px-2 py-0.5 rounded-md text-[10px] font-extrabold flex items-center gap-1 transition-colors ${
+                      className={`px-2 py-0.5 rounded-md text-[10px] font-extrabold flex items-center gap-1 transition-colors whitespace-nowrap shrink-0 ${
                         isOffline
                           ? 'bg-[#E05A47] text-white'
                           : 'bg-white/20 text-white hover:bg-white/30'
                       }`}
                     >
                       {isOffline ? (
-                        <WifiOff className="w-3 h-3" />
+                        <WifiOff className="w-3 h-3 shrink-0" />
                       ) : (
-                        <Wifi className="w-3 h-3" />
+                        <Wifi className="w-3 h-3 shrink-0" />
                       )}
                       <span>{isOffline ? 'Failover' : 'Online'}</span>
                     </button>
@@ -329,7 +327,7 @@ export const SystemArchitectureBanner: React.FC<SystemArchitectureBannerProps> =
                         strokeLinecap="round"
                         strokeDasharray={strokeDash}
                         transform="rotate(-90 68 68)"
-                        className="transition-all duration-500"
+                        className="transition-all duration-700"
                       />
 
                       {/* Orbiting Smart Shell Node Dots */}
@@ -358,7 +356,7 @@ export const SystemArchitectureBanner: React.FC<SystemArchitectureBannerProps> =
                         <span className="text-[11px] font-extrabold text-white leading-tight mt-0.5">
                           {node.legacySystem}
                         </span>
-                        <div className="font-mono-tabular text-base font-extrabold text-[#CFE3DC] mt-1 transition-all">
+                        <div className="font-mono-tabular text-base font-extrabold text-[#CFE3DC] mt-1">
                           {node.totals.atp}
                           <span className="text-[11px] font-semibold text-white/85">
                             /{node.totals.physical}
@@ -371,43 +369,48 @@ export const SystemArchitectureBanner: React.FC<SystemArchitectureBannerProps> =
                     </div>
                   </div>
 
-                  {/* OUTER SHELL ENCODING BADGES (High Contrast + Live Delta Indicator) */}
+                  {/* OUTER SHELL ENCODING BADGES (Fixed Height, Zero Jitter) */}
                   <div className="bg-[#061310] border border-white/20 rounded-xl p-3 text-xs font-mono-tabular space-y-1.5">
                     <div className="flex items-center justify-between">
-                      <span className="font-sans font-extrabold text-white flex items-center gap-1.5">
-                        <Cpu className="w-3.5 h-3.5 text-[#CFE3DC]" />
-                        {node.code} Smart Shell
+                      <span className="font-sans font-extrabold text-white flex items-center gap-1.5 whitespace-nowrap">
+                        <span
+                          className={`w-2 h-2 rounded-full transition-colors ${
+                            syncInfo.syncing ? 'bg-[#CFE3DC]' : 'bg-[#8EB9AC]/40'
+                          }`}
+                        />
+                        <Cpu className="w-3.5 h-3.5 text-[#CFE3DC] shrink-0" />
+                        <span>{node.code} Smart Shell</span>
                       </span>
-                      <span className="px-1.5 py-0.5 rounded bg-white/15 text-[#CFE3DC] font-extrabold text-[11px]">
+                      <span className="px-1.5 py-0.5 rounded bg-white/15 text-[#CFE3DC] font-extrabold text-[11px] whitespace-nowrap">
                         {syncInfo.lastMs}ms
                       </span>
                     </div>
-                    <div className="text-white font-semibold truncate">
+                    <div className="text-white font-semibold truncate h-4 leading-4">
                       {syncInfo.lastDeltaText
                         ? `⚡ ${syncInfo.lastDeltaText}`
                         : `⚡ ${node.conversionBadge}`}
                     </div>
                     <div className="flex items-center justify-between text-[11px] pt-1.5 border-t border-white/15">
-                      <span className="px-1.5 py-0.5 rounded bg-[#E05A47] text-white font-bold">
+                      <span className="px-1.5 py-0.5 rounded bg-[#E05A47] text-white font-bold whitespace-nowrap">
                         {node.rawSample}
                       </span>
                       <span className="text-white font-bold">→</span>
-                      <span className="px-1.5 py-0.5 rounded bg-[#CFE3DC] text-[#0F2923] font-extrabold">
+                      <span className="px-1.5 py-0.5 rounded bg-[#CFE3DC] text-[#0F2923] font-extrabold whitespace-nowrap">
                         {node.encodedSample}
                       </span>
                     </div>
                   </div>
 
-                  {/* Interactive Bottom Action */}
-                  <div className="mt-3 flex items-center justify-between gap-2">
-                    <span className="text-xs font-extrabold text-white">
+                  {/* Interactive Bottom Action (Strictly Single-Line & Fixed Height — Never Shrinks) */}
+                  <div className="mt-3 flex items-center justify-between gap-2 h-8">
+                    <span className="text-xs font-extrabold text-white whitespace-nowrap truncate">
                       {isSelected
                         ? lang === 'en'
                           ? '● Active View'
                           : '● Đang mở'
                         : lang === 'en'
                         ? 'Inspect Shell →'
-                        : 'Mở Tầng Tích Hợp →'}
+                        : 'Chi tiết →'}
                     </span>
                     <button
                       type="button"
@@ -415,16 +418,10 @@ export const SystemArchitectureBanner: React.FC<SystemArchitectureBannerProps> =
                         e.stopPropagation();
                         onManualSyncShellToGlobal(node.code);
                       }}
-                      className="px-3 py-1 rounded-lg bg-[#CFE3DC] hover:bg-white text-[#0F2923] text-xs font-extrabold flex items-center gap-1 transition-colors"
+                      className="h-8 px-3 rounded-lg bg-[#CFE3DC] hover:bg-white text-[#0F2923] text-xs font-extrabold inline-flex items-center justify-center gap-1.5 transition-colors whitespace-nowrap shrink-0"
                     >
-                      <Send className="w-3 h-3" />
-                      <span>
-                        {syncInfo.syncing
-                          ? '...'
-                          : lang === 'en'
-                          ? 'Sync'
-                          : 'Đồng bộ'}
-                      </span>
+                      <Send className="w-3 h-3 shrink-0" />
+                      <span>{lang === 'en' ? 'Sync' : 'Đồng bộ'}</span>
                     </button>
                   </div>
                 </div>
